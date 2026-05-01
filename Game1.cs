@@ -47,7 +47,7 @@ namespace MonoGame_Lesson_1_5_Summative_Animation
             explosionBackRect = new Rectangle(0, 0, window.Width, window.Height);
             xTextOffset = 0f;
             base.Initialize();
-            textSize = skyText.MeasureString("Welcome to Parkers Animation\n\n \n\nClick To Continue");
+            textSize = skyText.MeasureString("Welcome to Parkers Animation\n\n Click To Continue");
 
         }
 
@@ -74,7 +74,7 @@ namespace MonoGame_Lesson_1_5_Summative_Animation
                 textLocation.Y -= 1;
                 
                 //textLocation.X += textSize.X * textScale / 2;
-                textSize = skyText.MeasureString("Welcome to Parkers Animation\n\nClick To Continue");
+                textSize = skyText.MeasureString("Welcome to Parkers Animation\n\n Click To Continue");
                 float prevScale = textScale;
                 prevTextSize = textSize * prevScale;
                 textScale *= 0.999f;
@@ -110,7 +110,7 @@ namespace MonoGame_Lesson_1_5_Summative_Animation
                 _spriteBatch.Draw(starBackTexture, starBackRect, Color.White);
                 
                 
-                _spriteBatch.DrawString(skyText, "Welcome to Parkers Animation\n\nClick To Continue", textLocation, Color.Yellow, 0f, Vector2.Zero, textScale, SpriteEffects.None, 1f);
+                _spriteBatch.DrawString(skyText, "Welcome to Parkers Animation\n\n        Click To Continue", textLocation, Color.Yellow, 0f, Vector2.Zero, textScale, SpriteEffects.None, 1f);
             }
             if (screen == Screen.End)
             {
