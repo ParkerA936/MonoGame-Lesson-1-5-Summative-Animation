@@ -61,6 +61,12 @@
 /processorParam:TextureFormat=Color
 /build:Earth.png
 
+#begin explosion.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:explosion.wav
+
 #begin Laser Beam.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -109,6 +115,18 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:SkyText.spritefont
+
+#begin Star Wars End.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Star Wars End.jpg
 
 #begin Star Wars Main Theme (Full).mp3
 /importer:Mp3Importer

@@ -17,17 +17,18 @@ namespace MonoGame_Lesson_1_5_Summative_Animation
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        Texture2D starBackTexture, shipTexture, earthTexture, planetExplodesTexture, planetExplodedTexture, laserTexture;
+        Texture2D starBackTexture, shipTexture, earthTexture, planetExplodesTexture, planetExplodedTexture, laserTexture, endTexture;
         SpriteFont skyText;
         Rectangle window,starBackRect, shipRect, earthRect, planetExplodesRect, planetExplodedRect, laserRect;
         Screen screen;
         MouseState mouseState, prevMouseState;
-        Vector2 textLocation, textSize, prevTextSize;
+        Vector2 textLocation, textSize, prevTextSize, textLocation2;
         float textScale = 1f;
         float xTextOffset;
-        SoundEffect themeSound;
-        SoundEffectInstance instantThemeSound;
-        bool beam, click, click2;
+        SoundEffect themeSound, laserSound, explosionSound;
+        SoundEffectInstance instantThemeSound, instantLaserSound, instantExplosionSound;
+        bool beam, click, click2, music;
+        int timer;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -47,7 +48,7 @@ namespace MonoGame_Lesson_1_5_Summative_Animation
             _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.ApplyChanges();
             textLocation = new Vector2(150, 700);
-
+            textLocation2 = new Vector2(200, 20);
             earthRect = new Rectangle(400,120,500,300);
             planetExplodesRect = new Rectangle(460,110,580,350);
             planetExplodedRect = new Rectangle(0, 0, 800, 600);
@@ -55,6 +56,7 @@ namespace MonoGame_Lesson_1_5_Summative_Animation
             click = false;
             click2 = false;
             beam = false;
+            music = false;
             starBackRect = new Rectangle(0, 0, window.Width, window.Height);
             shipRect = new Rectangle(-508, 250, 1017, 880);
             xTextOffset = 0f;
@@ -76,6 +78,11 @@ namespace MonoGame_Lesson_1_5_Summative_Animation
             laserTexture = Content.Load<Texture2D>("Laser Beam");
             themeSound = Content.Load<SoundEffect>("Star Wars Main Theme (Full)");
             instantThemeSound = themeSound.CreateInstance();
+            laserSound = Content.Load<SoundEffect>("Laser Sound");
+            instantLaserSound = laserSound.CreateInstance();
+            explosionSound = Content.Load<SoundEffect>("explosion");
+            instantExplosionSound = explosionSound.CreateInstance();
+            endTexture = Content.Load<Texture2D>("Star Wars End");
             // TODO: use this.Content to load your game content here
         }
 
@@ -113,24 +120,63 @@ namespace MonoGame_Lesson_1_5_Summative_Animation
                instantThemeSound.Stop();
                
                 
-                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released&& click && click2)
+                //if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released&& click && click2)
+                //{
+                //    screen = Screen.End;
+                //}
+
+                //if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && click )
+                //{
+                    
+                //        click2 = true;
+                   
+                //}
+
+                //if (laserRect.Width <= 500 && laserRect.Height <= 250 && click)
+                //    {
+                //        laserRect.Width += 2;
+                //        laserRect.Height += 1;
+                //    }
+
+               
+                
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                 {
+                    
+                    instantLaserSound.Play();
+                    
+                    
+                        click = true;
+                   // if (laserRect.Width >= 500 && laserRect.Height >= 250)
+                    //need to change
+                   // { beam =  true; }
+                   
+                }
+                if (click)
+                {
+                    timer += 1;
+                }
+                if (timer == 45)
+                {
+                    beam = true;
+                }
+
+                if (timer == 280 )
+                    {
+                    instantExplosionSound.Stop();
+                        click2 = true;
+                    instantExplosionSound.Play();
+                   
+                    }
+                if (timer == 600 )
+                {
+                    instantExplosionSound.Stop();
                     screen = Screen.End;
                 }
 
-                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && click )
-                {
-                    click2 = true;
-                    
-                }
-                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
-                {
-                    click = true;
-                    if (click)
-                    //need to change
-                    { beam =  true; }
-                }
+
             }
+           
                 // TODO: Add your update logic here
 
                 base.Update(gameTime);
@@ -149,30 +195,33 @@ namespace MonoGame_Lesson_1_5_Summative_Animation
             if (screen == Screen.GamePlay)
             {
                 _spriteBatch.Draw(starBackTexture, starBackRect, Color.White);
+                _spriteBatch.DrawString(skyText, "Click To Destroy Earth",textLocation2, Color.Yellow);
                 _spriteBatch.Draw(shipTexture, shipRect, Color.White);
                 _spriteBatch.Draw(earthTexture, earthRect, Color.White);
                 if (click)
                 {
-                   
                     if (beam)
                     {
                         _spriteBatch.Draw(planetExplodesTexture, planetExplodesRect, Color.White);
-                        
-                        if (click2)
+                    }
+                 
+                _spriteBatch.Draw(laserTexture, laserRect, Color.White);        
+                       
+                   if (click2)
                         {
                             _spriteBatch.Draw(planetExplodedTexture, planetExplodedRect, Color.White);
                         }
                        
-                    }
-                    if(!click2)
-                _spriteBatch.Draw(laserTexture, laserRect, Color.White);
+                   
+                   
                 }
 
             }
             if (screen == Screen.End)
             {
                
-                _spriteBatch.DrawString(skyText, ("The End"), new Vector2(250, 200), Color.Yellow);
+                
+                _spriteBatch.Draw(endTexture, window, Color.White);
 
             }
                 // TODO: Add your drawing code here
