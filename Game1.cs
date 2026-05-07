@@ -25,8 +25,8 @@ namespace MonoGame_Lesson_1_5_Summative_Animation
         Vector2 textLocation, textSize, prevTextSize, textLocation2;
         float textScale = 1f;
         float xTextOffset;
-        SoundEffect themeSound, laserSound, explosionSound;
-        SoundEffectInstance instantThemeSound, instantLaserSound, instantExplosionSound;
+        SoundEffect themeSound, laserSound, explosionSound,endTheme;
+        SoundEffectInstance instantThemeSound, instantLaserSound, instantExplosionSound, instantEndTheme;
         bool beam, click, click2, music;
         int timer;
         public Game1()
@@ -47,7 +47,7 @@ namespace MonoGame_Lesson_1_5_Summative_Animation
             _graphics.PreferredBackBufferWidth = window.Width;
             _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.ApplyChanges();
-            textLocation = new Vector2(150, 700);
+            textLocation = new Vector2(-25, 700);
             textLocation2 = new Vector2(200, 20);
             earthRect = new Rectangle(400,120,500,300);
             planetExplodesRect = new Rectangle(460,110,580,350);
@@ -61,7 +61,7 @@ namespace MonoGame_Lesson_1_5_Summative_Animation
             shipRect = new Rectangle(-508, 250, 1017, 880);
             xTextOffset = 0f;
             base.Initialize();
-            textSize = skyText.MeasureString("Welcome to Parkers Animation\n\n Click To Continue");
+            textSize = skyText.MeasureString("Welcome to Parker's Animation\n\n Click To Continue");
 
         }
 
@@ -83,6 +83,8 @@ namespace MonoGame_Lesson_1_5_Summative_Animation
             explosionSound = Content.Load<SoundEffect>("explosion");
             instantExplosionSound = explosionSound.CreateInstance();
             endTexture = Content.Load<Texture2D>("Star Wars End");
+            endTheme = Content.Load<SoundEffect>("EndTheme");
+            instantEndTheme = endTheme.CreateInstance();
             // TODO: use this.Content to load your game content here
         }
 
@@ -99,10 +101,10 @@ namespace MonoGame_Lesson_1_5_Summative_Animation
                 textLocation.Y -= 1;
                 
                 //textLocation.X += textSize.X * textScale / 2;
-                textSize = skyText.MeasureString("Welcome to Parkers Animation\n\n Click To Continue");
+                textSize = skyText.MeasureString("Welcome to Parker's Animation\n\n  Far beyond the edge of Earth's understanding...\n\n a shadow moves silently through space.\n\n The Death Star drifts toward its newest target: Earth.\n\n Inside its endless steel corridors \n\n thousands of officers prepare for a single command.\n\nClick To Continue");
                 float prevScale = textScale;
                 prevTextSize = textSize * prevScale;
-                textScale *= 0.999f;
+                textScale *= 0.9989f;
                 textSize = textSize * textScale;
                 this.Window.Title = textSize.X.ToString();
                 textLocation.X += (prevTextSize.X - textSize.X) / 2;
@@ -190,7 +192,7 @@ namespace MonoGame_Lesson_1_5_Summative_Animation
             {
                 _spriteBatch.Draw(starBackTexture, starBackRect, Color.White);
                 
-                _spriteBatch.DrawString(skyText, "Welcome to Parkers Animation\n\n        Click To Continue", textLocation, Color.Yellow, 0f, Vector2.Zero, textScale, SpriteEffects.None, 1f);
+                _spriteBatch.DrawString(skyText, "                       Welcome to Parker's Animation\n\n\n\n     Far beyond the edge of Earth's understanding... \n\n             a shadow moves silently through space.\n\n The Death Star drifts toward its newest target: Earth.\n\n                      Inside its endless steel corridors\n\n thousands of officers prepare for a single command.  \n\n                                         Click To Continue", textLocation, Color.Yellow, 0f, Vector2.Zero, textScale, SpriteEffects.None, 1f);
             }
             if (screen == Screen.GamePlay)
             {
@@ -220,7 +222,7 @@ namespace MonoGame_Lesson_1_5_Summative_Animation
             if (screen == Screen.End)
             {
                
-                
+                instantEndTheme.Play();
                 _spriteBatch.Draw(endTexture, window, Color.White);
 
             }
